@@ -84,6 +84,6 @@ inline float InverseSquareLighting::SmoothStep(const float edge0, const float ed
 float InverseSquareLighting::GetAttenuation(const float distance, const float radius)
 {
 	const float attenuation = Scale * MetresToUnitsSq / (distance * distance + Scale * MetresToUnitsSq);
-	const float fade = SmoothStep(radius, radius - FadeZone, distance);
+	const float fade = SmoothStep(0, radius * FadeZone, radius - distance);
 	return attenuation * fade;
 }

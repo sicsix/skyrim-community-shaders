@@ -47,7 +47,7 @@ private:
 	static constexpr float Scale = 0.8f;
 	static constexpr float MetresToUnits = 70.f;
 	static constexpr float MetresToUnitsSq = MetresToUnits * MetresToUnits;
-	static constexpr float FadeZone = 0.175f;
+	static constexpr float FadeZone = 0.5f;
 
 	static void SetExtLightData(RE::NiLight* niLight, const RE::TESObjectLIGH* ligh);
 
