@@ -71,7 +71,7 @@ float InverseSquareLighting::CalculateRadius(const float intensity, const bool s
 {
 	float cutoff = shadowCaster ? DefaultShadowCasterCutoff : DefaultCutoff;
 	cutoff = cutoffOverride == 1.f ? cutoff : cutoffOverride;
-	const float radius = std::sqrt(Scale * MetresToUnitsSq * ((intensity - cutoff) / cutoff));
+	const float radius = std::sqrt(ScaledUnitsSq * ((intensity - cutoff) / cutoff));
 	return isnan(radius) ? 1.f : radius;
 }
 
@@ -83,7 +83,8 @@ inline float InverseSquareLighting::SmoothStep(const float edge0, const float ed
 
 float InverseSquareLighting::GetAttenuation(const float distance, const float radius)
 {
-	const float attenuation = Scale * MetresToUnitsSq / (distance * distance + Scale * MetresToUnitsSq);
-	const float fade = SmoothStep(0, radius * FadeZone, radius - distance);
+	const float attenuation = ScaledUnitsSq / (distance * distance + ScaledUnitsSq);
+	const float fadeZone = std::clamp(FadeZoneBase / radius, 0.0f, 1.0f);
+	const float fade = SmoothStep(0, radius * fadeZone, radius - distance);
 	return attenuation * fade;
 }
