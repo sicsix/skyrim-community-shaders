@@ -7,7 +7,7 @@ struct ShadowmapCascadeCullingFix : BugFix
 	void Install() override;
 
 private:
-	inline static float* gSplitOverlap = nullptr;
+	inline static float* gfSplitOverlap = nullptr;
 
 	struct BSShadowDirectionalLight_SetFrameCamera_BuildCascadeCameraCullingPlanes
 	{
