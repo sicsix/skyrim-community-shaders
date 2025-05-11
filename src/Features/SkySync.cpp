@@ -53,7 +53,7 @@ void SkySync::DataLoaded()
 	stl::detour_thunk<Moon_Update>(REL::RelocationID(25626, 26169));
 	stl::detour_thunk<Sky_Update>(REL::RelocationID(25682, 26229));
 	stl::detour_thunk<Sky_OnNewClimate>(REL::RelocationID(25695, 26242));
-	stl::detour_thunk<VolumetricLightingDescriptor_Get>(REL::RelocationID(100297, 107014));
+	stl::write_thunk_call<ApplyVolumetricLighting_VolumetricLightingDescriptor_Get>(REL::RelocationID(100475, 107193).address() + 0x354);
 
 	gSunPosition = reinterpret_cast<RE::NiPoint3*>(REL::RelocationID(527924, 414871).address());
 	gSunGlareSize = reinterpret_cast<float*>(REL::RelocationID(502611, 370235).address());
@@ -360,7 +360,7 @@ inline void SkySync::ShadowFader::ClampDirection(RE::NiPoint3& dir)
 	dir.z = sinElev;
 }
 
-SkySync::VolumetricLightingDescriptor* SkySync::VolumetricLightingDescriptor_Get::thunk()
+SkySync::VolumetricLightingDescriptor* SkySync::ApplyVolumetricLighting_VolumetricLightingDescriptor_Get::thunk()
 {
 	const auto volumetricLightingDescriptor = func();
 	volumetricLightingDescriptor->lightingIntensity *= volumetricLightingIntensityFactor;

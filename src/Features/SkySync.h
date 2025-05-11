@@ -54,7 +54,7 @@ struct SkySync : Feature
 		float lightingIntensity;
 	};
 
-	struct VolumetricLightingDescriptor_Get
+	struct ApplyVolumetricLighting_VolumetricLightingDescriptor_Get
 	{
 		static VolumetricLightingDescriptor* thunk();
 		static inline REL::Relocation<decltype(thunk)> func;
