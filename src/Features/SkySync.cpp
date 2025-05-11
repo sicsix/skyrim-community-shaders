@@ -50,7 +50,6 @@ void SkySync::DataLoaded()
 		return;
 	}
 
-
 	stl::detour_thunk<Moon_Update>(REL::RelocationID(25626, 26169));
 	stl::detour_thunk<Sky_Update>(REL::RelocationID(25682, 26229));
 	stl::detour_thunk<Sky_OnNewClimate>(REL::RelocationID(25695, 26242));
