@@ -775,7 +775,7 @@ namespace Hooks
 	{
 		static void thunk(RE::BSRenderPass* pass, uint32_t technique, bool alphaTest, uint32_t renderFlags)
 		{
-			if (globals::features::lightLimitFix->loaded && !globals::features::lightLimitFix->BSBatchRenderer_RenderPassImmediately(pass, technique))
+			if (globals::features::lightLimitFix->loaded && !globals::features::lightLimitFix->CheckParticleLights(pass, technique))
 				return;
 
 			func(pass, technique, alphaTest, renderFlags);
@@ -787,7 +787,7 @@ namespace Hooks
 	{
 		static void thunk(RE::BSRenderPass* pass, uint32_t technique, bool alphaTest, uint32_t renderFlags)
 		{
-			if (globals::features::lightLimitFix->loaded && !globals::features::lightLimitFix->BSBatchRenderer_RenderPassImmediately(pass, technique))
+			if (globals::features::lightLimitFix->loaded && !globals::features::lightLimitFix->CheckParticleLights(pass, technique))
 				return;
 
 			if (globals::features::interiorSunShadows->loaded)
@@ -802,7 +802,7 @@ namespace Hooks
 	{
 		static void thunk(RE::BSRenderPass* pass, uint32_t technique, bool alphaTest, uint32_t renderFlags)
 		{
-			if (globals::features::lightLimitFix->loaded && !globals::features::lightLimitFix->BSBatchRenderer_RenderPassImmediately(pass, technique))
+			if (globals::features::lightLimitFix->loaded && !globals::features::lightLimitFix->CheckParticleLights(pass, technique))
 				return;
 
 			func(pass, technique, alphaTest, renderFlags);

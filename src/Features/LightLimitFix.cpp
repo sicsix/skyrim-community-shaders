@@ -1028,11 +1028,6 @@ void LightLimitFix::UpdateLights()
 	context->CSSetUnorderedAccessViews(0, 3, null_uavs, nullptr);
 }
 
-bool LightLimitFix::BSBatchRenderer_RenderPassImmediately(RE::BSRenderPass* pass, uint32_t technique)
-{
-	return CheckParticleLights(pass, technique);
-}
-
 void LightLimitFix::Hooks::BSLightingShader_SetupGeometry::thunk(RE::BSShader* This, RE::BSRenderPass* Pass, uint32_t RenderFlags)
 {
 	auto singleton = globals::features::lightLimitFix;

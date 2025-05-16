@@ -203,7 +203,6 @@ public:
 	bool CheckParticleLights(RE::BSRenderPass* a_pass, uint32_t a_technique);
 
 	void BSLightingShader_SetupGeometry_Before(RE::BSRenderPass* a_pass);
-	bool BSBatchRenderer_RenderPassImmediately(RE::BSRenderPass* pass, uint32_t technique);
 
 	enum class Space
 	{
