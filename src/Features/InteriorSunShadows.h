@@ -37,7 +37,7 @@ struct InteriorSunShadows : Feature
 		static inline REL::Relocation<decltype(thunk)> func;
 	};
 
-	void BSBatchRenderer_RenderPassImmediately2(const RE::BSRenderPass* pass, const uint32_t technique) const
+	void UpdateRasterStateCullMode(const RE::BSRenderPass* pass, const uint32_t technique) const
 	{
 		if (isInteriorWithSun && settings.ForceDoubleSidedRendering && technique & static_cast<uint32_t>(SIE::ShaderCache::UtilityShaderFlags::RenderShadowmap)) {
 			const auto renderTwoSided = pass->shaderProperty->flags.none(RE::BSShaderProperty::EShaderPropertyFlag::kAssumeShadowmask);

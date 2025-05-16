@@ -791,7 +791,7 @@ namespace Hooks
 				return;
 
 			if (globals::features::interiorSunShadows->loaded)
-				globals::features::interiorSunShadows->BSBatchRenderer_RenderPassImmediately2(pass, technique);
+				globals::features::interiorSunShadows->UpdateRasterStateCullMode(pass, technique);
 
 			func(pass, technique, alphaTest, renderFlags);
 		}
