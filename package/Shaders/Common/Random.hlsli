@@ -102,10 +102,11 @@ namespace Random
 		return fmix(h);
 	}
 
-	uint pcg(uint v)
+	uint pcg(inout uint state)
 	{
-		uint state = v * 747796405u + 2891336453u;
-		uint word = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+		uint prevState = state;
+		state = state * 747796405u + 2891336453u;
+		uint word = ((prevState >> ((prevState >> 28u) + 4u)) ^ prevState) * 277803737u;
 		return (word >> 22u) ^ word;
 	}
 
@@ -149,6 +150,73 @@ namespace Random
 		uint n = 1103515245U * ((q.x) ^ (q.y >> 3U));
 
 		return n;
+	}
+
+	float f1(inout uint seed, out uint word)
+	{
+		word = pcg(seed);
+		uint bits = word & 0x007FFFFFu | 0x3F800000u;
+		return asfloat(bits) - 1.0f;
+	}
+
+	float f1(inout uint seed)
+	{
+		uint word;
+		return f1(seed, word);
+	}
+
+	float2 f2(inout uint seed, out uint word)
+	{
+		word = pcg(seed);
+		uint bits0 = word & 0x007FFFFFu | 0x3F800000u;
+		uint bits1 = word >> 9 | 0x3F800000u;
+		float f0 = asfloat(bits0) - 1.0f;
+		float f1 = asfloat(bits1) - 1.0f;
+		return float2(f0, f1);
+	}
+
+	float2 f2(inout uint seed)
+	{
+		uint word;
+		return f2(seed, word);
+	}
+
+	float3 f3(inout uint seed, out uint word)
+	{
+		word = pcg(seed);
+		uint bits0 = word & 0x007FFFFFu | 0x3F800000u;
+		uint bits1 = (word << 22 | word >> 10) & 0x007FFFFFu | 0x3F800000u;
+		uint bits2 = (word << 11 | word >> 21) & 0x007FFFFFu | 0x3F800000u;
+		float f0 = asfloat(bits0) - 1.0f;
+		float f1 = asfloat(bits1) - 1.0f;
+		float f2 = asfloat(bits2) - 1.0f;
+		return float3(f0, f1, f2);
+	}
+
+	float3 f3(inout uint seed)
+	{
+		uint word;
+		return f3(seed, word);
+	}
+
+	float4 f4(inout uint seed, out uint word)
+	{
+		word = pcg(seed);
+		uint bits0 = word & 0x007FFFFFu | 0x3F800000u;
+		uint bits1 = (word << 24 | word >> 8) & 0x007FFFFFu | 0x3F800000u;
+		uint bits2 = (word << 16 | word >> 16) & 0x007FFFFFu | 0x3F800000u;
+		uint bits3 = (word << 8 | word >> 24) & 0x007FFFFFu | 0x3F800000u;
+		float f0 = asfloat(bits0) - 1.0f;
+		float f1 = asfloat(bits1) - 1.0f;
+		float f2 = asfloat(bits2) - 1.0f;
+		float f3 = asfloat(bits3) - 1.0f;
+		return float4(f0, f1, f2, f3);
+	}
+
+	float4 f4(inout uint seed)
+	{
+		uint word;
+		return f4(seed, word);
 	}
 
 	///////////////////////////////////////////////////////////
