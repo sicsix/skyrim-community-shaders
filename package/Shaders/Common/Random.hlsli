@@ -152,71 +152,62 @@ namespace Random
 		return n;
 	}
 
-	float f1(inout uint seed, out uint word)
+	float f1(inout uint state, out uint randBits)
 	{
-		word = pcg(seed);
-		uint bits = word & 0x007FFFFFu | 0x3F800000u;
+		randBits = pcg(state);
+		uint bits = randBits & 0x007FFFFFu | 0x3F800000u;
 		return asfloat(bits) - 1.0f;
 	}
 
-	float f1(inout uint seed)
+	float f1(inout uint state)
 	{
-		uint word;
-		return f1(seed, word);
+		uint randBits;
+		return f1(state, randBits);
 	}
 
-	float2 f2(inout uint seed, out uint word)
+	float2 f2(inout uint state, out uint randBits)
 	{
-		word = pcg(seed);
-		uint bits0 = word & 0x007FFFFFu | 0x3F800000u;
-		uint bits1 = word >> 9 | 0x3F800000u;
-		float f0 = asfloat(bits0) - 1.0f;
-		float f1 = asfloat(bits1) - 1.0f;
-		return float2(f0, f1);
+		randBits = pcg(state);
+		uint bits0 = randBits & 0x007FFFFFu | 0x3F800000u;
+		uint bits1 = randBits >> 9 | 0x3F800000u;
+		return float2(asfloat(bits0), asfloat(bits1)) - 1.0f;
 	}
 
-	float2 f2(inout uint seed)
+	float2 f2(inout uint state)
 	{
-		uint word;
-		return f2(seed, word);
+		uint randBits;
+		return f2(state, randBits);
 	}
 
-	float3 f3(inout uint seed, out uint word)
+	float3 f3(inout uint state, out uint randBits)
 	{
-		word = pcg(seed);
-		uint bits0 = word & 0x007FFFFFu | 0x3F800000u;
-		uint bits1 = (word << 22 | word >> 10) & 0x007FFFFFu | 0x3F800000u;
-		uint bits2 = (word << 11 | word >> 21) & 0x007FFFFFu | 0x3F800000u;
-		float f0 = asfloat(bits0) - 1.0f;
-		float f1 = asfloat(bits1) - 1.0f;
-		float f2 = asfloat(bits2) - 1.0f;
-		return float3(f0, f1, f2);
+		randBits = pcg(state);
+		uint bits0 = randBits & 0x007FFFFFu | 0x3F800000u;
+		uint bits1 = (randBits << 22 | randBits >> 10) & 0x007FFFFFu | 0x3F800000u;
+		uint bits2 = (randBits << 11 | randBits >> 21) & 0x007FFFFFu | 0x3F800000u;
+		return float3(asfloat(bits0), asfloat(bits1), asfloat(bits2)) - 1.0f;
 	}
 
-	float3 f3(inout uint seed)
+	float3 f3(inout uint state)
 	{
-		uint word;
-		return f3(seed, word);
+		uint randBits;
+		return f3(state, randBits);
 	}
 
-	float4 f4(inout uint seed, out uint word)
+	float4 f4(inout uint state, out uint randBits)
 	{
-		word = pcg(seed);
-		uint bits0 = word & 0x007FFFFFu | 0x3F800000u;
-		uint bits1 = (word << 24 | word >> 8) & 0x007FFFFFu | 0x3F800000u;
-		uint bits2 = (word << 16 | word >> 16) & 0x007FFFFFu | 0x3F800000u;
-		uint bits3 = (word << 8 | word >> 24) & 0x007FFFFFu | 0x3F800000u;
-		float f0 = asfloat(bits0) - 1.0f;
-		float f1 = asfloat(bits1) - 1.0f;
-		float f2 = asfloat(bits2) - 1.0f;
-		float f3 = asfloat(bits3) - 1.0f;
-		return float4(f0, f1, f2, f3);
+		randBits = pcg(state);
+		uint bits0 = randBits & 0x007FFFFFu | 0x3F800000u;
+		uint bits1 = (randBits << 24 | randBits >> 8) & 0x007FFFFFu | 0x3F800000u;
+		uint bits2 = (randBits << 16 | randBits >> 16) & 0x007FFFFFu | 0x3F800000u;
+		uint bits3 = (randBits << 8 | randBits >> 24) & 0x007FFFFFu | 0x3F800000u;
+		return float4(asfloat(bits0), asfloat(bits1), asfloat(bits2), asfloat(bits3)) - 1.0f;
 	}
 
-	float4 f4(inout uint seed)
+	float4 f4(inout uint state)
 	{
-		uint word;
-		return f4(seed, word);
+		uint randBits;
+		return f4(state, randBits);
 	}
 
 	///////////////////////////////////////////////////////////
