@@ -96,7 +96,7 @@ namespace BRDF
     // [Kutz et al. 2021, "Novel aspects of the Adobe Standard Material" ]
     float3 F_AdobeF82(float3 F0, float3 F82, float VdotH)
     {
-        const float Fc = Pow5(1 - VdotH);
+        const float Fc = pow(1 - VdotH, 5);
         const float K = 49.0 / 46656.0;
         float3 b = (K - K * F82) * (7776.0 + 9031.0 * F0);
         return saturate(F0 + Fc * ((1 - F0) - b * (VdotH - VdotH * VdotH)));
