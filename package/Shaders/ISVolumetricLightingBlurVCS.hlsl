@@ -32,7 +32,7 @@ groupshared float depth[TG_DIM];
 	int base = idx - WINDOW;
 	int x = groupId.x;
 	int y = groupId.y * (TG_DIM - WINDOW * 2) + base;
-	
+
 	int2 pix = min(int2(x, y), screenSizeMin1.xy);
 	float vlValue = InVLTexture[pix];
 	vl[idx] = vlValue;

@@ -6,7 +6,7 @@
 SamplerState ShadowmapSampler : register(s0);
 SamplerState ShadowmapVLSampler : register(s1);
 SamplerState InverseRepartitionSampler : register(s2);
-SamplerState NoiseSampler : register(s3); 
+SamplerState NoiseSampler : register(s3);
 
 Texture2DArray<float> ShadowmapTex : register(t0);
 Texture2DArray<float> ShadowmapVLTex : register(t1);
@@ -99,11 +99,11 @@ cbuffer PerTechnique : register(b0)
 		uint cascadeIndex = ShadowMapCount >= 3.0f && shadowMapDepth > EndSplitDistances.y ? 2 : shadowMapDepth > EndSplitDistances.x ? 1 : 0;
 		float shadowMapThreshold = cascadeIndex == 0 ? 0.01f : 0.0f;
 		float4x3 lightProjectionMatrix = ShadowMapProj[eyeIndex][cascadeIndex];
-	
+
 		float3 positionLS = mul(transpose(lightProjectionMatrix), float4(positionWS.xyz, 1)).xyz;
 		float shadowMapValue = ShadowmapTex.SampleLevel(ShadowmapSampler, float3(positionLS.xy, cascadeIndex), 0);
 		noShadow = shadowMapValue >= positionLS.z - shadowMapThreshold;
-		
+
 		if (EnableShadowCasting < 0.5) {
 			float shadowMapVLValue = ShadowmapVLTex.SampleLevel(ShadowmapVLSampler, float3(positionLS.xy, cascadeIndex), 0);
 			noShadow = noShadow & shadowMapVLValue >= positionLS.z - shadowMapThreshold;

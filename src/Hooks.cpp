@@ -938,7 +938,7 @@ namespace Hooks
 				auto state = globals::state;
 				auto shaderCache = globals::shaderCache;
 				auto vl = globals::features::volumetricLighting;
-				
+
 				if (state->enabledClasses[RE::BSShader::Type::ImageSpace]) {
 					RE::BSImagespaceShader* isShader = CurrentlyDispatchedShader;
 					uint32_t techniqueId = CurrentComputeShaderTechniqueId;
@@ -948,7 +948,7 @@ namespace Hooks
 							isShader = globals::features::volumetricLighting->GetOrCreateGenerateCS(CurrentlyDispatchedComputeShader);
 						} else if (CurrentlyDispatchedComputeShader->name == std::string_view("ISVolumetricLightingRaymarchCS")) {
 							isShader = globals::features::volumetricLighting->GetOrCreateRaymarchCS(CurrentlyDispatchedComputeShader);
-						} 
+						}
 					} else if (CurrentlyDispatchedComputeShader->name == std::string_view("ISVolumetricLightingBlurHCS")) {
 						techniqueId = 0;
 						isShader = vl->GetOrCreateBlurHCS(CurrentlyDispatchedComputeShader);
