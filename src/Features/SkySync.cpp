@@ -348,7 +348,7 @@ void SkySync::ShadowFader::SetLighting(const RE::Sun* sun, RE::NiPoint3 dir, flo
 	m.entry[1][0] = -dir.y;
 	m.entry[2][0] = -dir.z;
 
-	RE::NiUpdateData updateData; 
+	RE::NiUpdateData updateData;
 	sun->light->Update(updateData);
 
 	intensity = std::clamp(intensity, 0.0f, 1.0f);
