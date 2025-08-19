@@ -29,6 +29,8 @@ public:
 		bool Enabled = true;
 		bool UseAlternateSunPath = true;
 		int32_t MoonLightSource = 0;
+		int32_t SunPath = 0;
+		float CustomAngle = -35.0f;
 	};
 
 	Settings settings;
@@ -90,7 +92,17 @@ private:
 		None
 	};
 
+	enum class SunPath : uint8_t
+	{
+		Southern,
+		Northern,
+		Vanilla,
+		Custom,
+		Count
+	};
+
 	const char* MoonLightSourceNames[static_cast<uint8_t>(MoonLightSource::Count)] = { "Brightest", "Masser", "Secunda" };
+	const char* SunPathNames[static_cast<uint8_t>(SunPath::Count)] = { "Southern Sky", "Northern Sky", "Vanilla", "Custom" };
 
 	struct ClimateTimings
 	{
@@ -132,7 +144,6 @@ private:
 	};
 
 	static constexpr float RenderDistance = 325000.0f;
-	static constexpr float SunArcTiltAngle = 55.0f;
 	static constexpr float SunHorizonDistance = 280.0f;
 	static constexpr float SunPeakDistance = 400.0f;
 	static constexpr float SunScaleFactor = 48.0f / 2048.0f;
@@ -175,7 +186,7 @@ private:
 
 	static void CalculateSunDirectionAndDistance(const RE::Sun* sun, RE::NiPoint3& outDir, float& outDistance);
 
-	static void CalculateAlternateSunDirectionAndDistance(RE::NiPoint3& outDir, float& outDist, float time, float sunrise, float sunset);
+	static void CalculateAlternateSunDirectionAndDistance(RE::NiPoint3& outDir, float& outDist, float time, float sunrise, float sunset, float sunAngle);
 
 	static RE::NiPoint3 GetApparentDirection(const RE::NiPoint3& dir, float altitude);
 

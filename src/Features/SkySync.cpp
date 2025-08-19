@@ -4,12 +4,19 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(
 	SkySync::Settings,
 	Enabled,
 	UseAlternateSunPath,
-	MoonLightSource)
+	MoonLightSource,
+	SunPath,
+	CustomAngle)
 
 void SkySync::DrawSettings()
 {
 	ImGui::Checkbox("Enabled", &settings.Enabled);
 	ImGui::Checkbox("Use alternate sun path", &settings.UseAlternateSunPath);
+	if (settings.UseAlternateSunPath) {
+		ImGui::SliderInt("Sun path", &settings.SunPath, 0, static_cast<uint8_t>(SunPath::Count) - 1, SunPathNames[settings.SunPath]);
+		if (settings.SunPath == static_cast<int32_t>(SunPath::Custom))
+			ImGui::SliderFloat("Custom angle", &settings.CustomAngle, -90.0f, 90.0f, "%.0f");
+	}
 	ImGui::SliderInt("Moon light source", &settings.MoonLightSource, 0, static_cast<uint8_t>(MoonLightSource::Count) - 1, MoonLightSourceNames[settings.MoonLightSource]);
 }
 
@@ -125,9 +132,25 @@ void SkySync::ProcessSun(const RE::Sun* sun, const float time, const float altit
 	RE::NiPoint3 dir;
 	float dist;
 
-	if (settings.UseAlternateSunPath)
-		CalculateAlternateSunDirectionAndDistance(dir, dist, time, timings.sunrise, timings.sunset);
-	else
+	if (settings.UseAlternateSunPath) {
+		float sunAngle = 90.0f;
+		switch (static_cast<SunPath>(settings.SunPath)) {
+		case SunPath::Southern:
+			sunAngle -= 35.0f;
+			break;
+		case SunPath::Northern:
+			sunAngle += 35.0f;
+			break;
+		case SunPath::Vanilla:
+			sunAngle += 5.0f;
+			break;
+		case SunPath::Custom:
+			sunAngle += settings.CustomAngle;
+			break;
+		default:;
+		}
+		CalculateAlternateSunDirectionAndDistance(dir, dist, time, timings.sunrise, timings.sunset, sunAngle);
+	} else
 		CalculateSunDirectionAndDistance(sun, dir, dist);
 
 	rawDirections[static_cast<int>(Caster::Sun)] = dir;
@@ -198,13 +221,13 @@ inline void SkySync::CalculateSunDirectionAndDistance(const RE::Sun* sun, RE::Ni
 	}
 }
 
-inline void SkySync::CalculateAlternateSunDirectionAndDistance(RE::NiPoint3& outDir, float& outDist, const float time, const float sunrise, const float sunset)
+inline void SkySync::CalculateAlternateSunDirectionAndDistance(RE::NiPoint3& outDir, float& outDist, const float time, const float sunrise, const float sunset, const float sunAngle)
 {
 	const float phi = DirectX::XM_PI * ((time - sunrise) / (sunset - sunrise));
 	float sinPhi, cosPhi;
 	DirectX::XMScalarSinCosEst(&sinPhi, &cosPhi, phi);
 
-	constexpr float tiltRadians = DirectX::XMConvertToRadians(SunArcTiltAngle);
+	float tiltRadians = DirectX::XMConvertToRadians(sunAngle);
 	float cosTilt, sinTilt;
 	DirectX::XMScalarSinCosEst(&sinTilt, &cosTilt, tiltRadians);
 
