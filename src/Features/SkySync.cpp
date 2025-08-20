@@ -119,7 +119,7 @@ void SkySync::Update(const RE::Sky* sky)
 }
 void SkySync::SetSunAngle()
 {
-	settings.SunPath = std::clamp(settings.SunPath, static_cast<int>(SunPath::Southern), static_cast<int>(SunPath::Custom));
+	settings.SunPath = std::clamp(settings.SunPath, static_cast<int32_t>(SunPath::Southern), static_cast<int32_t>(SunPath::Custom));
 	switch (static_cast<SunPath>(settings.SunPath)) {
 	case SunPath::Southern:
 		sunAngle = SouthernSunAngle;
