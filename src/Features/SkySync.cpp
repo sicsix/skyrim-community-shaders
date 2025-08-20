@@ -15,11 +15,11 @@ void SkySync::DrawSettings()
 	ImGui::Checkbox("Use alternate sun path", &settings.UseAlternateSunPath);
 	
 	if (settings.UseAlternateSunPath) {
-		if (ImGui::SliderInt("Sun path", &settings.SunPath, 0, static_cast<uint8_t>(SunPath::Count) - 1, SunPathNames[settings.SunPath]))
+		if (ImGui::SliderInt("Sun path", &settings.SunPath, 0, static_cast<uint8_t>(SunPath::Count) - 1, SunPathNames[settings.SunPath], ImGuiSliderFlags_AlwaysClamp))
 			SetSunAngle();
 		
 		if (settings.SunPath == static_cast<int32_t>(SunPath::Custom)) {
-			if (ImGui::SliderFloat("Custom angle", &settings.CustomAngle, -90.0f, 90.0f, "%.0f"))
+			if (ImGui::SliderFloat("Custom angle", &settings.CustomAngle, -90.0f, 90.0f, "%.0f"), ImGuiSliderFlags_AlwaysClamp)
 				SetSunAngle();
 		}
 	}
@@ -119,6 +119,7 @@ void SkySync::Update(const RE::Sky* sky)
 }
 void SkySync::SetSunAngle()
 {
+	settings.SunPath = std::clamp(settings.SunPath, static_cast<int>(SunPath::Southern), static_cast<int>(SunPath::Custom));
 	switch (static_cast<SunPath>(settings.SunPath)) {
 	case SunPath::Southern:
 		sunAngle = SouthernSunAngle;
