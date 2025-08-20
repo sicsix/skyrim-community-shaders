@@ -43,6 +43,7 @@ void SkySync::SaveSettings(json& o_json)
 void SkySync::RestoreDefaultSettings()
 {
 	settings = {};
+	SetSunAngle();
 }
 
 void SkySync::PostPostLoad()
@@ -248,7 +249,7 @@ inline void SkySync::CalculateAlternateSunDirectionAndDistance(RE::NiPoint3& out
 	if (const float length = outDir.Unitize(); length < FLT_EPSILON)
 		outDir = { 0.0f, 0.0f, 1.0f };
 
-	const float elevationRatio = std::clamp(-outDir.y / cosTilt, 0.0f, 1.0f);
+	const float elevationRatio = std::max(sinPhi, 0.0f);
 	outDist = std::lerp(SunHorizonDistance, SunPeakDistance, elevationRatio);
 }
 
